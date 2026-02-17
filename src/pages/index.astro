@@ -13,7 +13,7 @@ import { SITE_TITLE, SITE_DESCRIPTION, CONTACT_API_URL } from '../consts';
 			<h1>Website for Sale</h1>
 			<p>This website is available for purchase. Please contact me using the form below:</p>
 			
-			<form action={`${CONTACT_API_URL}/ContactUs/SendEmail`} method="POST" class="contact-form">
+			<form id="contactForm" class="contact-form">
 				<div class="form-group">
 					<label for="name">Name:</label>
 					<input type="text" id="name" name="name" required />
@@ -30,8 +30,45 @@ import { SITE_TITLE, SITE_DESCRIPTION, CONTACT_API_URL } from '../consts';
 				</div>
 				
 				<button type="submit">Send Message</button>
+				<div id="status" class="status-message"></div>
 			</form>
 		</main>
+		
+		<script define:inline>
+			const form = document.getElementById('contactForm');
+			const status = document.getElementById('status');
+			const apiUrl = '{CONTACT_API_URL}';
+			
+			form.addEventListener('submit', async (e) => {
+				e.preventDefault();
+				
+				const formData = new FormData(form);
+				const name = formData.get('name');
+				const email = formData.get('email');
+				const message = formData.get('message');
+				
+				status.textContent = 'Sending...';
+				status.className = 'status-message';
+				
+				try {
+					const response = await fetch(`${apiUrl}/ContactUs/SendEmail?name=${encodeURIComponent(name)}&email=${encodeURIComponent(email)}&message=${encodeURIComponent(message)}`, {
+						method: 'POST'
+					});
+					
+					if (response.ok) {
+						status.textContent = 'Message sent successfully!';
+						status.className = 'status-message success';
+						form.reset();
+					} else {
+						status.textContent = 'Failed to send message. Please try again.';
+						status.className = 'status-message error';
+					}
+				} catch (error) {
+					status.textContent = 'Error: Unable to send message.';
+					status.className = 'status-message error';
+				}
+			});
+		</script>
 	</body>
 </html>
 <style>
@@ -92,5 +129,25 @@ import { SITE_TITLE, SITE_DESCRIPTION, CONTACT_API_URL } from '../consts';
 	
 	button[type="submit"]:hover {
 		background: var(--accent-dark);
+	}
+	
+	.status-message {
+		margin-top: 1em;
+		padding: 1em;
+		border-radius: 4px;
+		text-align: center;
+		font-weight: 600;
+	}
+	
+	.status-message.success {
+		background: #d4edda;
+		color: #155724;
+		border: 1px solid #c3e6cb;
+	}
+	
+	.status-message.error {
+		background: #f8d7da;
+		color: #721c24;
+		border: 1px solid #f5c6cb;
 	}
 </style>
