@@ -34,10 +34,9 @@ import { SITE_TITLE, SITE_DESCRIPTION, CONTACT_API_URL } from '../consts';
 			</form>
 		</main>
 		
-		<script define:inline>
-			const form = document.getElementById('contactForm');
-			const status = document.getElementById('status');
-			const apiUrl = '{CONTACT_API_URL}';
+	<script define:vars={{ apiUrl: CONTACT_API_URL }}>
+		const form = document.getElementById('contactForm');
+		const status = document.getElementById('status');
 			
 			form.addEventListener('submit', async (e) => {
 				e.preventDefault();
