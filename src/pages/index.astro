@@ -44,7 +44,10 @@ import { SITE_TITLE, SITE_DESCRIPTION, CONTACT_API_URL } from '../consts';
 				const formData = new FormData(form);
 				const name = formData.get('name');
 				const email = formData.get('email');
-				const message = formData.get('message');
+				const userMessage = formData.get('message');
+				
+				// Append website URL to message
+				const message = userMessage + '\n\n---\nSubmitted from: https://vibecodingsaviour.com/';
 				
 				status.textContent = 'Sending...';
 				status.className = 'status-message';
