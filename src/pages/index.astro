@@ -11,38 +11,86 @@ import { SITE_TITLE, SITE_DESCRIPTION, CONTACT_API_URL } from '../consts';
 	<body>
 		<main>
 			<h1>Website for Sale</h1>
-			<p>This website is available for purchase. To enquire, please contact me via the following API:</p>
-			<div class="api-info">
-				<p><strong>Contact API endpoint:</strong></p>
-				<code class="endpoint">{CONTACT_API_URL}/ContactUs/SendEmail</code>
-				<p><strong>Method:</strong> POST</p>
-				<p><strong>Parameters:</strong> <code>name</code>, <code>email</code>, <code>message</code> (query string or form data)</p>
-			</div>
+			<p>This website is available for purchase. Please contact me using the form below:</p>
+			
+			<form action={`${CONTACT_API_URL}/ContactUs/SendEmail`} method="POST" class="contact-form">
+				<div class="form-group">
+					<label for="name">Name:</label>
+					<input type="text" id="name" name="name" required />
+				</div>
+				
+				<div class="form-group">
+					<label for="email">Email:</label>
+					<input type="email" id="email" name="email" required />
+				</div>
+				
+				<div class="form-group">
+					<label for="message">Message:</label>
+					<textarea id="message" name="message" rows="5" required></textarea>
+				</div>
+				
+				<button type="submit">Send Message</button>
+			</form>
 		</main>
 	</body>
 </html>
 <style>
 	main {
 		text-align: center;
+		max-width: 600px;
+		margin: 0 auto;
 	}
-	.api-info {
-		text-align: left;
+	
+	.contact-form {
 		margin-top: 2em;
-		padding: 1.5em;
+		text-align: left;
+		padding: 2em;
 		background: rgb(var(--gray-light));
 		border-radius: 8px;
 		box-shadow: var(--box-shadow);
 	}
-	.endpoint {
-		display: block;
-		word-break: break-all;
-		margin: 0.5em 0;
-		padding: 0.5em;
-		background: rgb(var(--gray-dark));
-		color: white;
-		border-radius: 4px;
+	
+	.form-group {
+		margin-bottom: 1.5em;
 	}
-	pre {
-		overflow-x: auto;
+	
+	.form-group label {
+		display: block;
+		margin-bottom: 0.5em;
+		font-weight: 700;
+		color: rgb(var(--black));
+	}
+	
+	.form-group input,
+	.form-group textarea {
+		width: 100%;
+		padding: 0.75em;
+		border: 2px solid rgb(var(--gray));
+		border-radius: 4px;
+		font-family: inherit;
+		font-size: 1em;
+	}
+	
+	.form-group input:focus,
+	.form-group textarea:focus {
+		outline: none;
+		border-color: var(--accent);
+	}
+	
+	button[type="submit"] {
+		width: 100%;
+		padding: 1em;
+		background: var(--accent);
+		color: white;
+		border: none;
+		border-radius: 4px;
+		font-size: 1.1em;
+		font-weight: 700;
+		cursor: pointer;
+		transition: background 0.3s ease;
+	}
+	
+	button[type="submit"]:hover {
+		background: var(--accent-dark);
 	}
 </style>
